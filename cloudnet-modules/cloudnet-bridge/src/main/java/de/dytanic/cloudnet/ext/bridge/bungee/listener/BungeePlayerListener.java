@@ -65,7 +65,7 @@ public final class BungeePlayerListener implements Listener {
           serviceInfoSnapshot.getServiceId().getName()));
 
       try {
-        Thread.sleep(10);
+        Thread.sleep(100);
       } catch (InterruptedException ignored) {
       }
     }
