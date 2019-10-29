@@ -131,7 +131,7 @@ public final class BungeeCloudNetListener {
                 ProxiedPlayer proxiedPlayer = getPlayer(event.getData());
 
                 if (proxiedPlayer != null && event.getData().getString("kickMessage") != null) {
-                    proxiedPlayer.disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', event.getData().getString("kickMessage") + "")));
+                    proxiedPlayer.disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', event.getData().getString("kickMessage"))));
                 }
             }
             break;
@@ -139,14 +139,9 @@ public final class BungeeCloudNetListener {
                 ProxiedPlayer proxiedPlayer = getPlayer(event.getData());
 
                 if (proxiedPlayer != null) {
-                    if (event.getData().contains("message")) {
-                        proxiedPlayer.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', event.getData().getString("message") + "")));
-                    } else if (event.getData().contains("messages")) {
-                        BaseComponent[] components = ComponentSerializer.parse(event.getData().getString("messages"));
-                        if (components != null) {
-                            proxiedPlayer.sendMessage(components);
-                        }
-                    }
+                    BaseComponent[] messages = event.getData().contains("message") ? TextComponent.fromLegacyText(event.getData().getString("message")) :
+                            ComponentSerializer.parse(event.getData().getString("messages"));
+                    proxiedPlayer.sendMessage(messages);
                 }
             }
             break;
@@ -154,8 +149,7 @@ public final class BungeeCloudNetListener {
             case "broadcast_message": {
                 String permission = event.getData().getString("permission");
 
-                BaseComponent[] messages = event.getData().contains("message") ?
-                        TextComponent.fromLegacyText(event.getData().getString("message")) :
+                BaseComponent[] messages = event.getData().contains("message") ? TextComponent.fromLegacyText(event.getData().getString("message")) :
                         ComponentSerializer.parse(event.getData().getString("messages"));
 
                 for (ProxiedPlayer proxiedPlayer : ProxyServer.getInstance().getPlayers()) {
