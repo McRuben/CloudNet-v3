@@ -33,7 +33,7 @@ manifest.mf
 .DS_Store/
 
 # intellij
-*.iml
+*.iml 
 *.ipr
 *.iws
 .idea/
